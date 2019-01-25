@@ -1,0 +1,11 @@
+{
+  "name": "exercice",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "~3.3.4",
+    "socket.io": "~1.2.1",
+    "ent": "~0.1.0"
+  },
+  "author": "fredj <ghazide33@gmail.com>",
+  "description": "une liste des tâches partagée entre utilisateur en real time"
+}

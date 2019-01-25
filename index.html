@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>todolist</title>
+    </head>
+ 
+    <body>
+        <h1>list to do</h1>
+
+        <div id="tache_zone">
+            
+        </div>
+
+        <form action="/" method="post" id="add_form">
+            <input type="text" name="tache" id="tache" placeholder="Votre message..." size="50" autofocus />
+            <input type="submit" id="envoi_tache" value="Envoyer" />
+        </form>
+
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+
+            // Connexion à socket.io
+            var socket = io.connect('http://localhost:8080');
+
+            // Quand on reçoit un message, on l'insère dans la page
+            socket.on('todolist', function(data) {
+                for (var i = 0 ; i < data.length ; i++) {
+                    inseretache(data[i])
+                }
+            });
+
+            socket.on('insert', function(data) {
+                inseretache(data);
+            });
+
+            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            $('#add_form').submit(function () {
+                var tache = $('#tache').val();
+                socket.emit('nouvelle_tache', tache); // Transmet le message aux autres
+                $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+            
+            // Ajoute un message dans la page
+            function inseretache(msg) {
+                $('#tache_zone').append("<p>"+msg+"</p>");
+            }
+
+        </script>
+    </body>
+</html>
